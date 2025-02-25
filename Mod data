@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload File</title>
+</head>
+<body>
+    <h2>Upload File</h2>
+    <input type="file" id="fileInput">
+    <button onclick="uploadFile()">Upload</button>
+    <p id="status"></p>
+
+    <script>
+        function uploadFile() {
+            let fileInput = document.getElementById("fileInput").files[0];
+            if (!fileInput) {
+                document.getElementById("status").innerText = "Pilih file terlebih dahulu.";
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", fileInput);
+
+            fetch("http://127.0.0.1:5000/upload", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => document.getElementById("status").innerText = data)
+            .catch(error => document.getElementById("status").innerText = "Upload gagal!");
+        }
+    </script>
+</body>
+</html>
